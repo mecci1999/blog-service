@@ -40,3 +40,11 @@ export const COMMENTS_PRE_PAGE = parseInt(
   `${process.env["COMMENTS_PRE_PAGE"]}`,
   10
 );
+
+/**
+ * 搜索内容分页
+ */
+export const SEARCH_PRE_PAGE = parseInt(
+  `${process.env["SEARCH_PRE_PAGE"]}`,
+  10
+);

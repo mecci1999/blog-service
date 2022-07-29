@@ -1,3 +1,4 @@
+import { GetPostsOptionsPagination } from "@/post/post.service";
 import { connection } from "../app/database/mysql";
 
 /**
@@ -5,14 +6,21 @@ import { connection } from "../app/database/mysql";
  */
 export interface searchPostsOptions {
   postTitle?: string;
+  pagination?: GetPostsOptionsPagination;
 }
 
 export const searchPosts = async (options: searchPostsOptions) => {
   // 解构选项
-  const { postTitle: name } = options;
+  const { postTitle: name, pagination } = options;
 
   // SQL 参数
-  const params: Array<any> = [`%${name}%`];
+  let params: Array<any> = [pagination?.limit, pagination?.offset];
+
+  if (name) {
+    params = [`%${name}%`, ...params];
+  }
+
+  console.log(params);
 
   // 准备查询
   const statement = `
@@ -23,6 +31,8 @@ export const searchPosts = async (options: searchPostsOptions) => {
         post
     WHERE
         post.title LIKE ?
+    LIMIT ?
+    OFFSET ?
   `;
 
   // 执行查询

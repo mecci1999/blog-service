@@ -15,7 +15,10 @@ export const index = async (
     const postTitle = `${name}`;
 
     // 查询标签
-    const posts = await searchPosts({ postTitle });
+    const posts = await searchPosts({
+      postTitle,
+      pagination: request.pagination,
+    });
 
     // 做出响应
     response.send(posts);
