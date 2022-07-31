@@ -1,8 +1,7 @@
 import express from "express";
-import * as fileMiddleware from "./file.middleware";
 import * as fileController from "./file.controller";
 import { authGuard } from "../auth/auth.middleware";
-import { fileInterceptor } from "./file.middleware";
+import { fileInterceptor, mdFileInterceptor } from "./file.middleware";
 
 const router = express.Router();
 
@@ -24,7 +23,17 @@ router.delete("/images/:fileId", authGuard, fileController.destory);
 /**
  * 获取图片列表
  */
-router.get('/images', authGuard, fileController.index)
+router.get("/images", authGuard, fileController.index);
+
+/**
+ * 将md文件装换HTML标签接口,该接口用来预览或将md文件转换的html内容存储到数据库中
+ */
+router.post(
+  "/getHtml",
+  authGuard,
+  mdFileInterceptor,
+  fileController.transformHtml
+);
 
 /**
  * 默认导出接口

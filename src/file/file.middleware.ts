@@ -23,7 +23,12 @@ export const fileFilter = (fileTypes: Array<string>) => {
   };
 };
 
-const fileUploadFilter = fileFilter(["image/png", "image/jpg", "image/jpeg"]);
+const fileUploadFilter = fileFilter([
+  "image/png",
+  "image/jpg",
+  "image/jpeg",
+  "text/markdown",
+]);
 
 /**
  * 创建一个Multer
@@ -37,3 +42,16 @@ const fileUpload = multer({
  * 文件拦截器
  */
 export const fileInterceptor = fileUpload.single("image");
+
+/**
+ * md文件的Multer
+ */
+const mdFileUpload = multer({
+  dest: "uploads/markdown",
+  // fileFilter: fileUploadFilter,
+});
+
+/**
+ * md文件拦截器
+ */
+export const mdFileInterceptor = mdFileUpload.single("markdown");

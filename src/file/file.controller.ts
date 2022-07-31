@@ -11,6 +11,7 @@ import {
   uploadImage,
 } from "./file.service";
 import { changeTimeFormat } from "@/post/post.controller";
+import { marked } from "marked";
 
 /**
  * 上传图片文件
@@ -126,6 +127,39 @@ export const index = async (
     data[0].size = (size / 1024 / 1024).toFixed(2);
 
     response.send(data);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const transformHtml = (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  // 文件信息
+  const fileInfo = _.pick(request.file, [
+    "originalname",
+    "mimetype",
+    "filename",
+    "size",
+  ]);
+
+  //文件名和目录
+  let filePath = path.join("uploads", "markdown", `${fileInfo.filename}`);
+
+  // 读取文件
+  try {
+    fs.readFile(filePath, (err, data) => {
+      if (err) {
+        throw new Error("FILE_NOT_FOUND");
+      } else {
+        // 使用marked转换成html
+        const str = marked(data.toString());
+
+        response.send({ content: str });
+      }
+    });
   } catch (error) {
     next(error);
   }
