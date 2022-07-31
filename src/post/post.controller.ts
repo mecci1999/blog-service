@@ -10,6 +10,7 @@ import {
   findBgImgByPostId,
   getOnlyOnePost,
   getPostList,
+  getPostsTotalCount,
   postHasTag,
   postHasType,
 } from "./post.service";
@@ -21,6 +22,7 @@ import { createTag, getTagByName } from "@/tag/tag.service";
 import { TagModel } from "@/tag/tag.model";
 import { TypeModel } from "@/type/type.model";
 import { createType, getTypeByName } from "@/type/type.service";
+import { collectdata } from "@/collectdata/collectdata.middleware";
 
 /**
  * 创建博客
@@ -57,6 +59,16 @@ export const store = async (
   try {
     const data = await createPost(post);
 
+    const postId = parseInt(`${data.insertId}`, 10);
+
+    // 埋点
+    collectdata({
+      action: "createPost",
+      resourceType: "post",
+      resourceId: postId,
+      payloadParam: "body.title",
+    });
+
     // 做出响应
     response.send(data);
   } catch (error) {
@@ -73,23 +85,22 @@ export const index = async (
   next: NextFunction
 ) => {
   // 解构查询符
-  const { status = "", auditStatus = "" } = request.query;
+  const { status = "" } = request.query;
   const postStatus = `${status}` as unknown as PostStatus;
   // const auditLogStatus = (`${auditStatus}` as unknown) as AuditLogStatus;
 
   //获得内容数量
-  // try {
-  //   const totalCount = await getPostsTotalCount({
-  //     filter: request.filter,
-  //     postStatus,
-  //     auditLogStatus,
-  //   });
+  try {
+    const totalCount = await getPostsTotalCount({
+      filter: request.filter,
+      postStatus,
+    });
 
-  //   //响应头部数据
-  //   response.header('X-Total-Count', totalCount);
-  // } catch (error) {
-  //   next(error);
-  // }
+    //响应头部数据
+    response.header("X-Total-Count", totalCount);
+  } catch (error) {
+    next(error);
+  }
 
   try {
     // 调用获取列表方法
@@ -104,7 +115,13 @@ export const index = async (
     data.forEach((item: any) => {
       item.created = changeTimeFormat(item.created);
       item.updated = changeTimeFormat(item.updated);
-      item.bgImgUrl = `localhost:3000/posts/${item.id}/bgImg`;
+      item.bgImgUrl = `localhost:${APP_PORT}/posts/${item.id}/bgImg`;
+    });
+
+    // 埋点
+    collectdata({
+      action: "getPosts",
+      resourceType: "post",
     });
 
     // 做出响应
@@ -134,7 +151,15 @@ export const show = async (
     data[0].created = changeTimeFormat(created);
     data[0].updated = changeTimeFormat(updated);
 
-    data[0].bgImgUrl = `localhost:3000/posts/${postId}/bgImg`;
+    data[0].bgImgUrl = `localhost:${APP_PORT}/posts/${postId}/bgImg`;
+
+    // 埋点
+    collectdata({
+      action: "getPostById",
+      resourceType: "post",
+      resourceId: parseInt(postId, 10),
+    });
+
     // 做出响应
     response.send(data);
   } catch (error) {
@@ -178,6 +203,13 @@ export const uploadPostBgImg = async (
     //保存数据
     const data = await createPostBgImg(postBgImg);
 
+    // 埋点
+    collectdata({
+      action: "uploadPostImg",
+      resourceType: "image",
+      resourceId: parseInt(postId, 10),
+    });
+
     //做出响应
     response.status(201).send(data);
   } catch (error) {
@@ -216,6 +248,13 @@ export const serve = async (
     if (fileExist) {
       filename = `${filename}`;
     }
+
+    // 埋点
+    // collectdata({
+    //   action: "getPostImg",
+    //   resourceType: "image",
+    //   resourceId: parseInt(postId, 10),
+    // });
 
     //做出响应
     response.sendFile(filename, {
@@ -275,6 +314,14 @@ export const storePostTag = async (
   try {
     await creatPostTag(parseInt(postId, 10), tag.id);
 
+    // 埋点
+    collectdata({
+      action: "createPostTag",
+      resourceType: "post",
+      payloadParam: "body.name",
+      resourceId: parseInt(postId, 10),
+    });
+
     //做出响应
     response.sendStatus(201);
   } catch (error) {
@@ -297,6 +344,13 @@ export const destroyPostTag = async (
   // 移除内容标签
   try {
     await deletePostTag(parseInt(postId, 10), tagId);
+
+    // 埋点
+    collectdata({
+      action: "deletePostTag",
+      resourceType: "post",
+      resourceId: parseInt(postId, 10),
+    });
 
     response.sendStatus(200);
   } catch (error) {
@@ -350,6 +404,14 @@ export const storePostType = async (
   try {
     await creatPostType(parseInt(postId, 10), type.id);
 
+    // 埋点
+    collectdata({
+      action: "createPostType",
+      resourceType: "post",
+      payloadParam: "body.name",
+      resourceId: parseInt(postId, 10),
+    });
+
     //做出响应
     response.sendStatus(201);
   } catch (error) {
@@ -372,6 +434,13 @@ export const destroyPostType = async (
   // 移除内容标签
   try {
     await deletePostType(parseInt(postId, 10), typeId);
+
+    // 埋点
+    collectdata({
+      action: "deletePostType",
+      resourceType: "post",
+      resourceId: parseInt(postId, 10),
+    });
 
     response.sendStatus(200);
   } catch (error) {

@@ -384,44 +384,50 @@ export const deletePostType = async (postId: number, typeId?: number) => {
 /**
  * 统计内容数量
  */
-// export const getPostsTotalCount = async (options: GetPostsOptions) => {
-//   // 准备数据
-//   const { filter, postStatus: status /*auditLogStatus: auditStatus*/ } =
-//     options;
+export const getPostsTotalCount = async (options: GetPostsOptions) => {
+  // 准备数据
+  const { filter, postStatus: status } = options;
 
-//   // SQL 参数
-//   let params = [filter?.param];
+  // SQL 参数
+  let params = [filter?.param];
 
-//   if (filter.params) {
-//     params = [...filter.params, ...params];
-//   }
+  if (filter?.params) {
+    params = [...filter?.params, ...params];
+  }
 
-//   // 发布状态
-//   const whereStatus = status
-//     ? `post.status = '${status}'`
-//     : `post.status IS NOT NULL`;
+  // 发布状态
+  const whereStatus = status
+    ? `post.status = '${status}'`
+    : `post.status IS NOT NULL`;
 
-//   // 审核状态
-//   // const whereAuditStatus = auditStatus
-//   //   ? `AND audit.status = '${auditStatus}'`
-//   //   : "";
+  // 审核状态
+  // const whereAuditStatus = auditStatus
+  //   ? `AND audit.status = '${auditStatus}'`
+  //   : "";
 
-//   // 准备查询
-//   const statement = `
-//     SELECT
-//       COUNT(DISTINCT post.id) AS total
-//     FROM post
-//     ${sqlFragment.innerJoinFile}
-//     ${sqlFragment.leftJoinUser}
-//     ${sqlFragment.leftJoinTag}
-//     ${sqlFragment.leftJoinOneAuditLog}
-//     ${filter?.name == "userLiked" ? sqlFragment.innerJoinUserLikePost : ""}
-//     WHERE ${filter?.sql} AND ${whereStatus}
-//   `;
+  // 准备查询
+  const statement = `
+    SELECT
+      COUNT(DISTINCT post.id) AS total
+    FROM post
+    LEFT JOIN user
+      ON user.id = post.userId
+    LEFT JOIN postbgimage
+      ON post.id = postbgimage.postId
+    LEFT JOIN post_tag
+      ON post.id = post_tag.postId
+    LEFT JOIN
+      tag ON post_tag.tagId = tag.id
+    LEFT JOIN post_type
+      ON post.id = post_type.postId
+    LEFT JOIN
+      type ON post_type.typeId = type.id
+    WHERE ${filter?.sql} AND ${whereStatus}
+  `;
 
-//   //执行查询
-//   const [...data] = await connection.promise().query(statement, params);
+  //执行查询
+  const [...data] = await connection.promise().query(statement, params);
 
-//   //提供数据
-//   return data[0][0].total;
-// };
+  //提供数据
+  return data[0][0].total;
+};

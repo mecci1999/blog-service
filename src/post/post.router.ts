@@ -58,18 +58,7 @@ router.get("/posts/:postId/bgImg", postController.serve);
 /**
  * 添加内容标签
  */
-router.post(
-  "/posts/:postId/tag",
-  authGuard,
-  // accessControl({ prossession: true }),
-  // accessLog({
-  //   action: 'createPostTag',
-  //   resourceType: 'post',
-  //   resourceParamName: 'postId',
-  //   payloadParam: 'body.name',
-  // }),
-  postController.storePostTag
-);
+router.post("/posts/:postId/tag", authGuard, postController.storePostTag);
 
 /**
  * 移除内容标签
