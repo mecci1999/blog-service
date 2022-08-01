@@ -1,3 +1,4 @@
+import { collectdata } from "@/collectdata/collectdata.middleware";
 import { changeTimeFormat } from "@/post/post.controller";
 import { Request, Response, NextFunction } from "express";
 import { create, deleteRewarder, getRewardIndex } from "./reward.service";
@@ -37,6 +38,14 @@ export const store = async (
 
   try {
     const data = await create({ name, amount });
+
+    // 埋点
+    collectdata({
+      action: "createRewarder",
+      resourceType: "reward",
+      resourceId: data.insertId,
+      payloadParam: "body.amount",
+    });
 
     response.status(201).send(data);
   } catch (error) {

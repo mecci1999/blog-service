@@ -39,7 +39,7 @@ export const create = async (option: rewardOption) => {
   const [data] = await connection.promise().query(statement, { name, amount });
 
   // 提供数据
-  return data;
+  return data as any;
 };
 
 /**

@@ -12,16 +12,7 @@ const router = express.Router();
 /**
  * 搜索标题
  */
-router.get(
-  "/search",
-  // accessLog({
-  //   action: 'searchTags',
-  //   resourceType: 'search',
-  //   payloadParam: 'query.name',
-  // }),
-  paginate(SEARCH_PRE_PAGE),
-  searchController.index
-);
+router.get("/search", paginate(SEARCH_PRE_PAGE), searchController.index);
 
 /**
  * 默认导出

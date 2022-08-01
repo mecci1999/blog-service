@@ -38,7 +38,7 @@ export const createAnnounce = async (option: announceOption) => {
   const [data] = await connection.promise().query(statement, { content });
 
   // 提供数据
-  return data;
+  return data as any;
 };
 
 /**

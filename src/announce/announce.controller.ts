@@ -1,3 +1,4 @@
+import { collectdata } from "@/collectdata/collectdata.middleware";
 import { changeTimeFormat } from "@/post/post.controller";
 import { Request, Response, NextFunction } from "express";
 import {
@@ -24,6 +25,12 @@ export const index = async (
         .replaceAll("-", "/");
     });
 
+    // 埋点
+    collectdata({
+      action: "getAnnounce",
+      resourceType: "announce",
+    });
+
     response.send(data);
   } catch (error) {
     next(error);
@@ -43,6 +50,14 @@ export const store = async (
 
   try {
     const data = await createAnnounce({ content });
+
+    // 埋点
+    collectdata({
+      action: "createAnnounce",
+      resourceType: "announce",
+      resourceId: data.insertId,
+      payloadParam: "body.content",
+    });
 
     response.status(201).send(data);
   } catch (error) {

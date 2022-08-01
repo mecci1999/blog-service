@@ -39,7 +39,7 @@ export const createUpdateLog = async (option: updateLogOption) => {
   const [data] = await connection.promise().query(statement, content);
 
   // 提供数据
-  return data;
+  return data as any;
 };
 
 /**

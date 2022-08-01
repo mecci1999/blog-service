@@ -12,6 +12,7 @@ import {
 } from "./file.service";
 import { changeTimeFormat } from "@/post/post.controller";
 import { marked } from "marked";
+import { collectdata } from "@/collectdata/collectdata.middleware";
 
 /**
  * 上传图片文件
@@ -38,6 +39,13 @@ export const store = async (
     const data = await uploadImage({
       ...fileInfo,
       postId,
+    });
+
+    // 埋点
+    collectdata({
+      action: "uploadImageFile",
+      resourceType: "image",
+      resourceId: postId,
     });
 
     //做出响应
@@ -100,6 +108,13 @@ export const destory = async (
 
     // 删除数据
     const data = await deleteFileById(parseInt(`${fileId}`, 10));
+
+    // 埋点
+    collectdata({
+      action: "deleteImageFile",
+      resourceType: "image",
+      resourceId: parseInt(`${fileId}`, 10),
+    });
 
     response.send(data);
   } catch (error) {

@@ -1,3 +1,4 @@
+import { collectdata } from "@/collectdata/collectdata.middleware";
 import { Request, Response, NextFunction } from "express";
 import { socketIoServer } from "../app/app.server";
 import {
@@ -57,6 +58,14 @@ export const store = async (
     socketIoServer.emit("commentCreated", {
       comment: createdComment,
       socketId,
+    });
+
+    // 埋点
+    collectdata({
+      action: "createComment",
+      resourceType: "comment",
+      resourceId: data.insertId,
+      payloadParam: "body.content",
     });
 
     // 做出响应
@@ -127,6 +136,14 @@ export const reply = async (
     socketIoServer.emit("commentReplyCreated", {
       reply,
       socketId,
+    });
+
+    // 埋点
+    collectdata({
+      action: "createReplyComment",
+      resourceType: "comment",
+      resourceId: data.insertId,
+      payloadParam: "body.content",
     });
 
     // 做出响应

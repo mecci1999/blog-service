@@ -1,3 +1,4 @@
+import { collectdata } from "@/collectdata/collectdata.middleware";
 import { changeTimeFormat } from "@/post/post.controller";
 import { Request, Response, NextFunction } from "express";
 import {
@@ -43,6 +44,14 @@ export const store = async (
 
   try {
     const data = await createUpdateLog({ content });
+
+    // 埋点
+    collectdata({
+      action: "createUpdateLog",
+      resourceType: "updatelog",
+      resourceId: data.insertId,
+      payloadParam: "body.content",
+    });
 
     response.status(201).send(data);
   } catch (error) {

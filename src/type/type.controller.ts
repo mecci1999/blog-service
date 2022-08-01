@@ -1,3 +1,4 @@
+import { collectdata } from "@/collectdata/collectdata.middleware";
 import { Request, Response, NextFunction } from "express";
 import * as typeService from "./type.service";
 
@@ -21,6 +22,14 @@ export const store = async (
 
     // 存储标签
     const data = await typeService.createType({ name });
+
+    // 埋点
+    collectdata({
+      action: "createType",
+      resourceType: "type",
+      resourceId: data.insertId,
+      payloadParam: "body.name",
+    });
 
     //做出响应
     response.status(201).send(data);

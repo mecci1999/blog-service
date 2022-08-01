@@ -11,16 +11,7 @@ const router = express.Router();
 /**
  * 发表评论
  */
-router.post(
-  "/comments",
-  // accessLog({
-  //   action: 'createComment',
-  //   resourceType: 'comment',
-  //   payloadParam: 'body.content',
-  //   resourceParamName: 'body.postId',
-  // }),
-  commentController.store
-);
+router.post("/comments", commentController.store);
 
 /**
  * 回复评论
