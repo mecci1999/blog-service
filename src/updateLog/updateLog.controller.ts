@@ -51,7 +51,7 @@ export const store = async (
       resourceType: "updatelog",
       resourceId: data.insertId,
       payloadParam: "body.content",
-    });
+    })(request, response, next);
 
     response.status(201).send(data);
   } catch (error) {

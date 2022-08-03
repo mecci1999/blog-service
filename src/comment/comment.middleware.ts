@@ -14,14 +14,14 @@ export const filter = async (
   // 默认的过滤
   request.filter = {
     name: "default",
-    sql: "comment.parentId IS NULL",
+    sql: "comment.parentId IS NULL AND comment.status = 'approved'",
   };
 
   // 内容的评论列表
   if (post && !action) {
     request.filter = {
       name: "postComments",
-      sql: "comment.parentId IS NULL AND comment.postId = ?",
+      sql: "comment.parentId IS NULL AND comment.status = 'approved' AND comment.postId = ?",
       param: `${post}`,
     };
   }

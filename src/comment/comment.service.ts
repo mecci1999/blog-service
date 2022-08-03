@@ -45,17 +45,17 @@ export const isReplyComment = async (commentId: number) => {
  */
 export const updateComment = async (comment: CommentModel) => {
   // 准备数据
-  const { id, content } = comment;
+  const { id, status } = comment;
 
   // 准备查询
   const statement = `
     UPDATE comment
-    SET content = ?
+    SET status = ?
     WHERE id = ?
   `;
 
   // 执行查询
-  const [data] = await connection.promise().query(statement, [content, id]);
+  const [data] = await connection.promise().query(statement, [status, id]);
 
   // 提供数据
   return data;

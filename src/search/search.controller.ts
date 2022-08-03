@@ -25,7 +25,7 @@ export const index = async (
     collectdata({
       action: "useSearch",
       payloadParam: "query.name",
-    });
+    })(request, response, next);
 
     // 做出响应
     response.send(posts);

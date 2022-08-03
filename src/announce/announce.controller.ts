@@ -29,7 +29,7 @@ export const index = async (
     collectdata({
       action: "getAnnounce",
       resourceType: "announce",
-    });
+    })(request, response, next);
 
     response.send(data);
   } catch (error) {
@@ -57,7 +57,7 @@ export const store = async (
       resourceType: "announce",
       resourceId: data.insertId,
       payloadParam: "body.content",
-    });
+    })(request, response, next);
 
     response.status(201).send(data);
   } catch (error) {

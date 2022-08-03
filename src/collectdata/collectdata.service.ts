@@ -15,6 +15,8 @@ export const createAccessLog = async (collectdata: CollectDataModel) => {
   // 执行查询
   const [data] = await connection.promise().query(statement, collectdata);
 
+  console.log(data);
+
   // 触发事件
   socketIoServer.emit("accessLogCreated", collectdata.action);
 
@@ -45,13 +47,84 @@ export const getSumData = async (action: string) => {
       sql = `COUNT(${selectedActionType}.id)`;
       whereAccessLog = `WHERE access_log.action = 'getPostById'`;
       break;
+    case "uploadPostImg":
+      selectedActionType = `access_log`;
+      sql = `COUNT(${selectedActionType}.id)`;
+      whereAccessLog = `WHERE access_log.action = 'uploadPostImg'`;
+      break;
     case "createComment":
       selectedActionType = `comment`;
       sql = `COUNT(${selectedActionType}.id)`;
       break;
-    case "createFile":
+    case "createReplyComment":
+      selectedActionType = `comment`;
+      sql = `COUNT(${selectedActionType}.id)`;
+      whereAccessLog = `WHERE comment.parentId IS NOT NULL`;
+      break;
+    case "uploadImageFile":
       selectedActionType = `file`;
       sql = `COUNT(${selectedActionType}.id)`;
+      break;
+    case "updateCommentStatus":
+      selectedActionType = "access_log";
+      sql = `COUNT(${selectedActionType}.id)`;
+      whereAccessLog = `WHERE access_log.action = 'updateCommentStatus'`;
+      break;
+    case "getAnnounce":
+      selectedActionType = `announce`;
+      sql = `COUNT(${selectedActionType}.id)`;
+      break;
+    case "createAnnounce":
+      selectedActionType = "access_log";
+      sql = `COUNT(${selectedActionType}.id)`;
+      whereAccessLog = `WHERE access_log.action = 'createAnnounce'`;
+      break;
+    case "deleteImageFile":
+      selectedActionType = "access_log";
+      sql = `COUNT(${selectedActionType}.id)`;
+      whereAccessLog = `WHERE access_log.action = 'deleteImageFile'`;
+      break;
+    case "createPostTag":
+      selectedActionType = "access_log";
+      sql = `COUNT(${selectedActionType}.id)`;
+      whereAccessLog = `WHERE access_log.action = 'createPostTag'`;
+      break;
+    case "deletePostTag":
+      selectedActionType = "access_log";
+      sql = `COUNT(${selectedActionType}.id)`;
+      whereAccessLog = `WHERE access_log.action = 'deletePostTag'`;
+      break;
+    case "createPostType":
+      selectedActionType = "access_log";
+      sql = `COUNT(${selectedActionType}.id)`;
+      whereAccessLog = `WHERE access_log.action = 'createPostType'`;
+      break;
+    case "deletePostType":
+      selectedActionType = "access_log";
+      sql = `COUNT(${selectedActionType}.id)`;
+      whereAccessLog = `WHERE access_log.action = 'deletePostType'`;
+      break;
+    case "createRewarder":
+      selectedActionType = "reward";
+      sql = `COUNT(${selectedActionType}.id)`;
+      break;
+    case "useSearch":
+      selectedActionType = "access_log";
+      sql = `COUNT(${selectedActionType}.id)`;
+      whereAccessLog = `WHERE access_log.action = 'useSearch'`;
+      break;
+    case "createTag":
+      selectedActionType = "tag";
+      sql = `COUNT(${selectedActionType}.id)`;
+      break;
+    case "createType":
+      selectedActionType = "type";
+      sql = `COUNT(${selectedActionType}.id)`;
+      break;
+    case "createUpdateLog":
+      selectedActionType = "access_log";
+      sql = `COUNT(${selectedActionType}.id)`;
+      whereAccessLog = `WHERE access_log.action = 'useSearch'`;
       break;
     default:
       return 0;

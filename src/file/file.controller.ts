@@ -46,7 +46,7 @@ export const store = async (
       action: "uploadImageFile",
       resourceType: "image",
       resourceId: postId,
-    });
+    })(request, response, next);
 
     //做出响应
     response.status(201).send(data);
@@ -114,7 +114,7 @@ export const destory = async (
       action: "deleteImageFile",
       resourceType: "image",
       resourceId: parseInt(`${fileId}`, 10),
-    });
+    })(request, response, next);
 
     response.send(data);
   } catch (error) {

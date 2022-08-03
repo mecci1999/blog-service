@@ -17,7 +17,7 @@ router.get("/tags/:tagId/delete", authGuard, tagController.destory);
 /**
  * 获取标签列表
  */
-router.get("/tags/list", authGuard, tagController.index);
+router.get("/tags/list", tagController.index);
 
 /**
  * 导出默认路由

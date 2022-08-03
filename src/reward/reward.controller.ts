@@ -45,7 +45,7 @@ export const store = async (
       resourceType: "reward",
       resourceId: data.insertId,
       payloadParam: "body.amount",
-    });
+    })(request, response, next);
 
     response.status(201).send(data);
   } catch (error) {

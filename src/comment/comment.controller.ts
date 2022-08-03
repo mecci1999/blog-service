@@ -66,7 +66,7 @@ export const store = async (
       resourceType: "comment",
       resourceId: data.insertId,
       payloadParam: "body.content",
-    });
+    })(request, response, next);
 
     // 做出响应
     response.status(201).send(data);
@@ -144,7 +144,7 @@ export const reply = async (
       resourceType: "comment",
       resourceId: data.insertId,
       payloadParam: "body.content",
-    });
+    })(request, response, next);
 
     // 做出响应
     response.status(201).send(data);
@@ -163,12 +163,12 @@ export const update = async (
 ) => {
   //准备数据
   const { commentId } = request.params;
-  const { content } = request.body;
+  const { status } = request.body;
   const socketId = request.header("X-Socket-Id");
 
   const comment = {
     id: parseInt(commentId, 10),
-    content,
+    status,
   };
 
   //修改评论
@@ -189,6 +189,14 @@ export const update = async (
       [resourceType]: resource,
       socketId,
     });
+
+    // 埋点
+    collectdata({
+      action: "updateCommentStatus",
+      resourceType: "comment",
+      resourceId: parseInt(commentId, 10),
+      payloadParam: "body.status",
+    })(request, response, next);
 
     //做出响应
     response.send(data);

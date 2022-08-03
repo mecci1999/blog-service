@@ -29,7 +29,7 @@ export const store = async (
       resourceType: "tag",
       resourceId: data.insertId,
       payloadParam: "body.name",
-    });
+    })(request, response, next);
 
     //做出响应
     response.status(201).send(data);

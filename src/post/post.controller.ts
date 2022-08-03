@@ -67,7 +67,7 @@ export const store = async (
       resourceType: "post",
       resourceId: postId,
       payloadParam: "body.title",
-    });
+    })(request, response, next);
 
     // 做出响应
     response.send(data);
@@ -122,7 +122,7 @@ export const index = async (
     collectdata({
       action: "getPosts",
       resourceType: "post",
-    });
+    })(request, response, next);
 
     // 做出响应
     response.send(data);
@@ -158,7 +158,7 @@ export const show = async (
       action: "getPostById",
       resourceType: "post",
       resourceId: parseInt(postId, 10),
-    });
+    })(request, response, next);
 
     // 做出响应
     response.send(data);
@@ -208,7 +208,7 @@ export const uploadPostBgImg = async (
       action: "uploadPostImg",
       resourceType: "image",
       resourceId: parseInt(postId, 10),
-    });
+    })(request, response, next);
 
     //做出响应
     response.status(201).send(data);
@@ -248,13 +248,6 @@ export const serve = async (
     if (fileExist) {
       filename = `${filename}`;
     }
-
-    // 埋点
-    // collectdata({
-    //   action: "getPostImg",
-    //   resourceType: "image",
-    //   resourceId: parseInt(postId, 10),
-    // });
 
     //做出响应
     response.sendFile(filename, {
@@ -320,7 +313,7 @@ export const storePostTag = async (
       resourceType: "post",
       payloadParam: "body.name",
       resourceId: parseInt(postId, 10),
-    });
+    })(request, response, next);
 
     //做出响应
     response.sendStatus(201);
@@ -350,7 +343,7 @@ export const destroyPostTag = async (
       action: "deletePostTag",
       resourceType: "post",
       resourceId: parseInt(postId, 10),
-    });
+    })(request, response, next);
 
     response.sendStatus(200);
   } catch (error) {
@@ -410,7 +403,7 @@ export const storePostType = async (
       resourceType: "post",
       payloadParam: "body.name",
       resourceId: parseInt(postId, 10),
-    });
+    })(request, response, next);
 
     //做出响应
     response.sendStatus(201);
@@ -440,7 +433,7 @@ export const destroyPostType = async (
       action: "deletePostType",
       resourceType: "post",
       resourceId: parseInt(postId, 10),
-    });
+    })(request, response, next);
 
     response.sendStatus(200);
   } catch (error) {
