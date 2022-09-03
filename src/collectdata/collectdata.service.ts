@@ -15,8 +15,6 @@ export const createAccessLog = async (collectdata: CollectDataModel) => {
   // 执行查询
   const [data] = await connection.promise().query(statement, collectdata);
 
-  console.log(data);
-
   // 触发事件
   socketIoServer.emit("accessLogCreated", collectdata.action);
 
@@ -144,4 +142,25 @@ export const getSumData = async (action: string) => {
 
   // 提供数据
   return JSON.parse(JSON.stringify(data[0][0]));
+};
+
+/**
+ * 获取某篇博客的访问次数
+ */
+export const getPostAccessAmount = async (postId: number) => {
+  // 准备查询
+  const statement = `
+    SELECT
+      COUNT(access_log.id) as count
+    FROM
+      access_log
+    WHERE
+      access_log.action = 'getPostById' AND access_log.resourceId = ?
+  `;
+
+  // 执行查询
+  const [...data] = await connection.promise().query(statement, postId);
+
+  // 提供数据
+  return data[0][0] as any;
 };

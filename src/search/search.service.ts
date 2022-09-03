@@ -20,8 +20,6 @@ export const searchPosts = async (options: searchPostsOptions) => {
     params = [`%${name}%`, ...params];
   }
 
-  console.log(params);
-
   // 准备查询
   const statement = `
     SELECT

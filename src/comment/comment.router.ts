@@ -11,12 +11,22 @@ const router = express.Router();
 /**
  * 发表评论
  */
-router.post("/comments", commentController.store);
+router.post(
+  "/comments",
+  commentMiddleware.getAddressByBaiduApi,
+  commentMiddleware.getOSAndBrowserInfo,
+  commentController.store
+);
 
 /**
  * 回复评论
  */
-router.post("/comments/:commentId/reply", commentController.reply);
+router.post(
+  "/comments/:commentId/reply",
+  commentMiddleware.getAddressByBaiduApi,
+  commentMiddleware.getOSAndBrowserInfo,
+  commentController.reply
+);
 
 /**
  * 更改评论状态接口

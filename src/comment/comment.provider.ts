@@ -23,10 +23,11 @@ export const sqlFragment = {
         'avatarImgUrl', repliedComment.avatarImgUrl,
         'os',repliedComment.os,
         'browser',repliedComment.browser,
-        'address',repliedComment.address,
+        'province',repliedComment.province,
         'status', repliedComment.status,
         'created', repliedComment.created,
-        'updated', repliedComment.updated
+        'updated', repliedComment.updated,
+        'userId', repliedComment.userId
       )
       FROM
         comment repliedComment
@@ -65,10 +66,18 @@ export const sqlFragment = {
                   'avatarImgUrl', repliedComment.avatarImgUrl,
                   'os',repliedComment.os,
                   'browser',repliedComment.browser,
-                  'address',repliedComment.address,
+                  'province',repliedComment.province,
                   'status', repliedComment.status,
                   'created', repliedComment.created,
-                  'updated', repliedComment.updated
+                  'updated', repliedComment.updated,
+                  'userId', repliedComment.userId,
+                  'totalReplies', (SELECT
+                      IF(COUNT(reply.id),COUNT(reply.id),0)
+                    FROM
+                      comment reply
+                    WHERE
+                      reply.parentId = repliedComment.id
+                  )
                 ) ORDER BY repliedComment.id DESC
               ),
               ']'

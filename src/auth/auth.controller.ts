@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from 'express';
-import { signToken } from './auth.service';
+import { Request, Response, NextFunction } from "express";
+import { signToken } from "./auth.service";
 
 /**
  * 用户登录
@@ -10,7 +10,9 @@ export const login = async (
   next: NextFunction
 ) => {
   //准备数据
-  const { user: { id, name } } = request.body;
+  const {
+    user: { id, name },
+  } = request.body;
 
   // 给payload提供数据
   const payload = { id, name };
@@ -22,7 +24,6 @@ export const login = async (
 
     // 做出响应
     response.send({ id, name, token });
-
   } catch (error) {
     next(error);
   }
@@ -36,6 +37,5 @@ export const validata = (
   response: Response,
   next: NextFunction
 ) => {
-  console.log(request.user);
   response.sendStatus(200);
 };

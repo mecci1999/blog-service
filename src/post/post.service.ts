@@ -91,7 +91,6 @@ export const getPostList = async (options: GetPostsOptions) => {
       post.status,
       post.wordAmount,
       post.readTime,
-      post.type,
       JSON_OBJECT(
         'id',user.id,
         'name',user.name
@@ -173,7 +172,6 @@ export const getOnlyOnePost = async (postId: number) => {
       post.status,
       post.wordAmount,
       post.readTime,
-      post.type,
       JSON_OBJECT(
         'id',user.id,
         'name',user.name

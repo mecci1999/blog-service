@@ -27,7 +27,6 @@ router.post(
  */
 router.get(
   "/posts",
-  authGuard,
   sort,
   filter,
   paginate(POSTS_PRE_PAGE),
@@ -38,7 +37,7 @@ router.get(
 /**
  * 获取单个博客接口
  */
-router.get("/posts/:postId", authGuard, postController.show);
+router.get("/posts/:postId", postController.show);
 
 /**
  * 上传博客的封面图接口

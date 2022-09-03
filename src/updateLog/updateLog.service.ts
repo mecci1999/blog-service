@@ -28,8 +28,6 @@ export const createUpdateLog = async (option: updateLogOption) => {
   // 解构数据
   const { content } = option;
 
-  console.log(content);
-
   // 准备查询
   const statement = `
     INSERT INTO updatelog (updatelog.content) VALUES(?)

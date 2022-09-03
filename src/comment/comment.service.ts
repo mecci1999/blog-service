@@ -108,10 +108,11 @@ export const getComments = async (options: GetCommentsOptions) => {
       comment.avatarImgUrl,
       comment.os,
       comment.browser,
-      comment.address,
+      comment.province,
       comment.status,
       comment.created,
       comment.updated,
+      comment.userId,
       ${sqlFragment.post},
       ${sqlFragment.replyCommentList},
       ${sqlFragment.totalReplies}
@@ -131,7 +132,7 @@ export const getComments = async (options: GetCommentsOptions) => {
   const [data] = await connection.promise().query(statement, params);
 
   // 提供数据
-  return data;
+  return data as any;
 };
 
 /**
@@ -190,10 +191,11 @@ export const getCommentReplies = async (options: GetCommentRepliesOptions) => {
       comment.avatarImgUrl,
       comment.os,
       comment.browser,
-      comment.address,
+      comment.province,
       comment.status,
       comment.created,
       comment.updated,
+      comment.userId,
       ${sqlFragment.replyCommentList},
       ${sqlFragment.totalReplies}
     FROM
@@ -240,10 +242,11 @@ export const getCommentById = async (
       comment.eMail,
       comment.os,
       comment.browser,
-      comment.address,
+      comment.province,
       comment.status,
       comment.created,
       comment.updated,
+      comment.userId,
       ${sqlFragment.post}
       ${resourceType === "reply" ? `,${sqlFragment.repliedComment}` : ""}
       ${resourceType === "comment" ? `,${sqlFragment.totalReplies}` : ""}
@@ -256,6 +259,27 @@ export const getCommentById = async (
 
   // 执行查询
   const [...data] = await connection.promise().query(statement, params);
+
+  // 提供数据
+  return data[0][0] as any;
+};
+
+/**
+ * 获取某篇博客的评论数量
+ */
+export const getPostCommentAmount = async (postId: number) => {
+  // 准备查询
+  const statement = `
+    SELECT
+      COUNT(comment.id) as count
+    FROM
+      comment
+    WHERE
+      comment.postId = ?
+  `;
+
+  // 执行查询
+  const [...data] = await connection.promise().query(statement, postId);
 
   // 提供数据
   return data[0][0] as any;

@@ -1,4 +1,5 @@
 import { collectdata } from "@/collectdata/collectdata.middleware";
+import { changeTimeFormat } from "@/post/post.controller";
 import { Request, Response, NextFunction } from "express";
 import { socketIoServer } from "../app/app.server";
 import {
@@ -29,8 +30,9 @@ export const store = async (
     eMail,
     os,
     browser,
-    address,
     status,
+    province,
+    city,
   } = request.body;
 
   const socketId = request.header("X-Socket-Id");
@@ -43,8 +45,9 @@ export const store = async (
     eMail,
     os,
     browser,
-    address,
+    province,
     status,
+    city,
   };
 
   try {
@@ -94,8 +97,9 @@ export const reply = async (
     eMail,
     os,
     browser,
-    address,
+    province,
     status,
+    city,
   } = request.body;
 
   const socketId = request.header("X-Socket-Id");
@@ -109,8 +113,9 @@ export const reply = async (
     eMail,
     os,
     browser,
-    address,
+    province,
     status,
+    city,
   };
 
   //判断是否审核通过
@@ -266,6 +271,11 @@ export const index = async (
     const comment = await getComments({
       filter: request.filter,
       pagination: request.pagination,
+    });
+
+    comment.forEach((item: any) => {
+      item.created = changeTimeFormat(item.created);
+      item.updated = changeTimeFormat(item.updated);
     });
 
     // 做出响应

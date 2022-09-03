@@ -10,6 +10,30 @@ export const getUserInfo = async () => {
       name,
       introduction,
       info,
+      (
+        SELECT
+          COUNT(post.id)
+        FROM
+          post
+      ) AS blogAmount,
+      (
+        SELECT
+          COUNT(type.id)
+        FROM
+          type
+      ) AS typeAmount,
+      (
+        SELECT
+          COUNT(tag.id)
+        FROM
+          tag
+      ) AS tagAmount,
+      (
+        SELECT
+          COUNT(post.id)
+        FROM
+          post
+      ) AS blogAmount,
       IF (
         COUNT(avatar.id), 1, NULL
       ) AS avatar
@@ -25,7 +49,7 @@ export const getUserInfo = async () => {
 
   // 提供数据
   return data[0][0];
-}
+};
 
 /**
  * 根据用户名获取用户信息
@@ -45,4 +69,4 @@ export const userIsExistByName = async (name: string) => {
 
   // 提供数据
   return data[0][0];
-}
+};

@@ -84,9 +84,7 @@ export const collectdata =
       path,
       sumData: data.value,
     };
-
-    console.log(accessLog);
-
+    
     // 创建日志
     createAccessLog(accessLog);
 

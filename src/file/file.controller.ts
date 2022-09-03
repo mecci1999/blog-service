@@ -12,6 +12,7 @@ import {
 } from "./file.service";
 import { changeTimeFormat } from "@/post/post.controller";
 import { marked } from "marked";
+import Hljs from "highlight.js";
 import { collectdata } from "@/collectdata/collectdata.middleware";
 
 /**
@@ -69,7 +70,6 @@ export const serve = async (
   try {
     // 根据文件名获取文件信息
     const file = await getFileByName(`${name}`);
-    console.log(file);
 
     //文件名和目录
     let root = path.join("uploads", "image");
@@ -170,9 +170,21 @@ export const transformHtml = (
         throw new Error("FILE_NOT_FOUND");
       } else {
         // 使用marked转换成html
+        marked.setOptions({
+          renderer: new marked.Renderer(),
+          pedantic: false,
+          gfm: true,
+          breaks: false,
+          sanitize: false,
+          smartLists: true,
+          smartypants: false,
+          xhtml: false,
+          highlight: function (code) {
+            return Hljs.highlightAuto(code).value;
+          },
+        });
         const str = marked(data.toString());
-
-        response.send({ content: str });
+        response.send({ content: str.replaceAll("\n", "<br />") });
       }
     });
   } catch (error) {

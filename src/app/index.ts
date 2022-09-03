@@ -13,6 +13,7 @@ import rewardRouter from "@/reward/reward.router";
 import announceRouter from "@/announce/announce.router";
 import updateLogRouter from "@/updateLog/updateLog.router";
 import searchRouter from "@/search/search.router";
+import dashboardRouter from "@/dashboard/dashboard.router";
 import { defaultErrorHandler } from "./app.middleware";
 import { currentUser } from "../auth/auth.middleware";
 
@@ -27,6 +28,7 @@ const app = express();
 app.use(
   cors({
     origin: ALLOW_ORIGIN,
+    exposedHeaders: "X-Total-Count",
   })
 );
 
@@ -55,7 +57,8 @@ app.use(
   rewardRouter,
   announceRouter,
   updateLogRouter,
-  searchRouter
+  searchRouter,
+  dashboardRouter
 );
 
 /**

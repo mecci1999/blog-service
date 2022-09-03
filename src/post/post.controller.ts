@@ -23,6 +23,8 @@ import { TagModel } from "@/tag/tag.model";
 import { TypeModel } from "@/type/type.model";
 import { createType, getTypeByName } from "@/type/type.service";
 import { collectdata } from "@/collectdata/collectdata.middleware";
+import { getPostAccessAmount } from "@/collectdata/collectdata.service";
+import { getPostCommentAmount } from "@/comment/comment.service";
 
 /**
  * 创建博客
@@ -40,7 +42,6 @@ export const store = async (
     description,
     wordAmount,
     readTime,
-    type,
   } = request.body;
   const { id: userId } = request.user;
 
@@ -51,7 +52,6 @@ export const store = async (
     description,
     wordAmount,
     readTime,
-    type,
     userId,
   };
 
@@ -85,7 +85,7 @@ export const index = async (
   next: NextFunction
 ) => {
   // 解构查询符
-  const { status = "" } = request.query;
+  const { status = "published" } = request.query;
   const postStatus = `${status}` as unknown as PostStatus;
   // const auditLogStatus = (`${auditStatus}` as unknown) as AuditLogStatus;
 
@@ -145,6 +145,12 @@ export const show = async (
   try {
     const data = await getOnlyOnePost(parseInt(postId, 10));
 
+    // 获取单篇博客的访问次数
+    const accessAmount = await getPostAccessAmount(parseInt(postId, 10));
+
+    // 获取博客的评论数量
+    const commentAmount = await getPostCommentAmount(parseInt(postId, 10));
+
     // 对时间做处理
     const [{ created, updated }] = data;
 
@@ -152,6 +158,10 @@ export const show = async (
     data[0].updated = changeTimeFormat(updated);
 
     data[0].bgImgUrl = `localhost:${APP_PORT}/posts/${postId}/bgImg`;
+
+    data[0].accessAmount = accessAmount.count;
+
+    data[0].commentAmount = commentAmount.count;
 
     // 埋点
     collectdata({
@@ -161,7 +171,7 @@ export const show = async (
     })(request, response, next);
 
     // 做出响应
-    response.send(data);
+    response.send(data[0]);
   } catch (error) {
     next(error);
   }
