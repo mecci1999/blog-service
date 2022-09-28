@@ -201,7 +201,7 @@ export const getCommentReplies = async (options: GetCommentRepliesOptions) => {
     FROM
       comment
     WHERE
-      comment.parentId = ?
+      comment.parentId = ? AND comment.status = 'approved'
     GROUP BY
       comment.id
     ORDER BY
@@ -275,7 +275,7 @@ export const getPostCommentAmount = async (postId: number) => {
     FROM
       comment
     WHERE
-      comment.postId = ?
+      comment.postId = ? AND comment.status = 'approved'
   `;
 
   // 执行查询

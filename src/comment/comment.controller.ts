@@ -276,6 +276,16 @@ export const index = async (
     comment.forEach((item: any) => {
       item.created = changeTimeFormat(item.created);
       item.updated = changeTimeFormat(item.updated);
+      if (item.replyCommentList !== null) {
+        let replyCount = item.replyCommentList.reduce(
+          (total: number, item: any) => {
+            total = total + item.totalReplies;
+            return total;
+          },
+          0
+        );
+        item.totalReplies = item.totalReplies + replyCount;
+      }
     });
 
     // 做出响应

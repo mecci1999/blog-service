@@ -31,7 +31,7 @@ export const sqlFragment = {
       )
       FROM
         comment repliedComment
-      WHERE comment.parentId = repliedComment.id
+      WHERE comment.parentId = repliedComment.id AND repliedComment.status = 'approved'
       ) AS repliedComment
   `,
   totalReplies: `
@@ -45,7 +45,7 @@ export const sqlFragment = {
       FROM
         comment reply
       WHERE
-        reply.parentId = comment.id
+        reply.parentId = comment.id AND reply.status = 'approved'
     ) AS totalReplies
   `,
 
@@ -76,7 +76,7 @@ export const sqlFragment = {
                     FROM
                       comment reply
                     WHERE
-                      reply.parentId = repliedComment.id
+                      reply.parentId = repliedComment.id AND reply.status = 'approved'
                   )
                 ) ORDER BY repliedComment.id DESC
               ),
@@ -87,7 +87,7 @@ export const sqlFragment = {
         )
     FROM
       comment repliedComment
-    WHERE comment.id = repliedComment.parentId
+    WHERE comment.id = repliedComment.parentId AND repliedComment.status = 'approved'
     ) AS replyCommentList
   `,
 };

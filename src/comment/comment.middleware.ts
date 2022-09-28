@@ -152,8 +152,6 @@ export const getOSAndBrowserInfo = (
     os = "IOS";
   }
 
-  console.log(userAgent);
-
   request.body.browser = version;
   request.body.os = os;
 
