@@ -34,7 +34,9 @@ export const isReplyComment = async (commentId: number) => {
   `;
 
   // 执行查询
-  const [...data] = await connection.promise().query(statement, commentId);
+  const [...data] = (await connection
+    .promise()
+    .query(statement, commentId)) as any;
 
   // 提供数据
   return data[0][0].parentId ? true : false;
@@ -164,7 +166,9 @@ export const getCommentsTotalCount = async (options: GetCommentsOptions) => {
   `;
 
   // 执行查询
-  const [...data] = await connection.promise().query(statement, params);
+  const [...data] = (await connection
+    .promise()
+    .query(statement, params)) as any;
 
   // 提供数据
   return data[0][0].total;
@@ -258,7 +262,9 @@ export const getCommentById = async (
   `;
 
   // 执行查询
-  const [...data] = await connection.promise().query(statement, params);
+  const [...data] = (await connection
+    .promise()
+    .query(statement, params)) as any;
 
   // 提供数据
   return data[0][0] as any;
@@ -279,7 +285,9 @@ export const getPostCommentAmount = async (postId: number) => {
   `;
 
   // 执行查询
-  const [...data] = await connection.promise().query(statement, postId);
+  const [...data] = (await connection
+    .promise()
+    .query(statement, postId)) as any;
 
   // 提供数据
   return data[0][0] as any;

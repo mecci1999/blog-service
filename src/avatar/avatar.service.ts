@@ -2,8 +2,8 @@ import { connection } from "../app/database/mysql";
 import { AvatarModel } from "./avatar.model";
 
 /**
-* 保存头像数据
-*/
+ * 保存头像数据
+ */
 export const createAvatar = async (avatar: AvatarModel) => {
   // 准备查询
   const statement = `
@@ -19,11 +19,9 @@ export const createAvatar = async (avatar: AvatarModel) => {
 };
 
 /**
-* 按用户Id查找头像
-*/
-export const findAvatarByUserId = async (
-  userId: number
-) => {
+ * 按用户Id查找头像
+ */
+export const findAvatarByUserId = async (userId: number) => {
   // 准备查询
   const statement = `
     SELECT *
@@ -34,7 +32,9 @@ export const findAvatarByUserId = async (
   `;
 
   // 执行查询
-  const [...data] = await connection.promise().query(statement, userId);
+  const [...data] = (await connection
+    .promise()
+    .query(statement, userId)) as any;
 
   // 返回数据
   return data[0][0];

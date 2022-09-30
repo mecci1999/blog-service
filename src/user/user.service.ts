@@ -45,7 +45,7 @@ export const getUserInfo = async () => {
   `;
 
   // 执行查询
-  const [...data] = await connection.promise().query(statement);
+  const [...data] = (await connection.promise().query(statement)) as any;
 
   // 提供数据
   return data[0][0];
@@ -65,7 +65,7 @@ export const userIsExistByName = async (name: string) => {
   `;
 
   // 执行查询
-  const [...data] = await connection.promise().query(statement, name);
+  const [...data] = (await connection.promise().query(statement, name)) as any;
 
   // 提供数据
   return data[0][0];

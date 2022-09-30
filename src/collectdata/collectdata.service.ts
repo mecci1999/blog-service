@@ -138,7 +138,7 @@ export const getSumData = async (action: string) => {
     `;
 
   // 执行查询
-  const [...data] = await connection.promise().query(statement);
+  const [...data] = (await connection.promise().query(statement)) as any;
 
   // 提供数据
   return JSON.parse(JSON.stringify(data[0][0]));
@@ -159,7 +159,9 @@ export const getPostAccessAmount = async (postId: number) => {
   `;
 
   // 执行查询
-  const [...data] = await connection.promise().query(statement, postId);
+  const [...data] = (await connection
+    .promise()
+    .query(statement, postId)) as any;
 
   // 提供数据
   return data[0][0] as any;

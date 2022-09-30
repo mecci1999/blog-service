@@ -267,7 +267,9 @@ export const findBgImgByPostId = async (postId: number) => {
   `;
 
   // 执行查询
-  const [...data] = await connection.promise().query(statement, postId);
+  const [...data] = (await connection
+    .promise()
+    .query(statement, postId)) as any;
 
   // 返回数据
   return data[0][0];
@@ -284,9 +286,9 @@ export const postHasTag = async (postId: number, tagId?: number) => {
   `;
 
   // 执行查询
-  const [...data] = await connection
+  const [...data] = (await connection
     .promise()
-    .query(statement, [postId, tagId]);
+    .query(statement, [postId, tagId])) as any;
 
   // 提供数据
   return data[0][0] ? true : false;
@@ -337,9 +339,9 @@ export const postHasType = async (postId: number, typeId?: number) => {
   `;
 
   // 执行查询
-  const [...data] = await connection
+  const [...data] = (await connection
     .promise()
-    .query(statement, [postId, typeId]);
+    .query(statement, [postId, typeId])) as any;
 
   // 提供数据
   return data[0][0] ? true : false;
@@ -424,7 +426,9 @@ export const getPostsTotalCount = async (options: GetPostsOptions) => {
   `;
 
   //执行查询
-  const [...data] = await connection.promise().query(statement, params);
+  const [...data] = (await connection
+    .promise()
+    .query(statement, params)) as any;
 
   //提供数据
   return data[0][0].total;

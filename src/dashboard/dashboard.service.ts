@@ -86,7 +86,7 @@ export const getAppInfo = async () => {
   `;
 
   // 执行查询
-  const [...data] = await connection.promise().query(statement);
+  const [...data] = (await connection.promise().query(statement)) as any;
 
   // 提供数据
   return data[0][0];

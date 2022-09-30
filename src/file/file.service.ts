@@ -34,7 +34,9 @@ export const findFileById = async (fileId: number) => {
   `;
 
   // 执行查询
-  const [...data] = await connection.promise().query(statement, fileId);
+  const [...data] = (await connection
+    .promise()
+    .query(statement, fileId)) as any;
 
   // 提供数据
   return data[0][0];
@@ -102,7 +104,7 @@ export const getFileById = async (id: number) => {
   `;
 
   // 执行查询
-  const [...data] = await connection.promise().query(statement, id);
+  const [...data] = (await connection.promise().query(statement, id)) as any;
 
   // 提供数据
   return data[0][0] as any;
@@ -123,7 +125,7 @@ export const getFileByName = async (name: string) => {
   `;
 
   // 执行查询
-  const [...data] = await connection.promise().query(statement, name);
+  const [...data] = (await connection.promise().query(statement, name)) as any;
 
   // 提供数据
   return data[0][0] as any;

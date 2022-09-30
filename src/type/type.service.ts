@@ -29,7 +29,9 @@ export const getTypeByName = async (typeName: string) => {
   `;
 
   //执行查询
-  const [...data] = await connection.promise().query(statement, typeName);
+  const [...data] = (await connection
+    .promise()
+    .query(statement, typeName)) as any;
 
   //提供数据
   return data[0][0];
