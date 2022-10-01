@@ -1,5 +1,5 @@
-import { collectdata } from "@/collectdata/collectdata.middleware";
-import { changeTimeFormat } from "@/post/post.controller";
+import { collectdata } from "../collectdata/collectdata.middleware";
+import { changeTimeFormat } from "../post/post.controller";
 import { Request, Response, NextFunction } from "express";
 import { create, deleteRewarder, getRewardIndex } from "./reward.service";
 

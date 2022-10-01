@@ -16,15 +16,15 @@ import {
 } from "./post.service";
 import fs from "fs";
 import _ from "lodash";
-import { APP_PORT } from "@/app/app.config";
+import { APP_PORT } from "../app/app.config";
 import path from "path";
-import { createTag, getTagByName } from "@/tag/tag.service";
-import { TagModel } from "@/tag/tag.model";
-import { TypeModel } from "@/type/type.model";
-import { createType, getTypeByName } from "@/type/type.service";
-import { collectdata } from "@/collectdata/collectdata.middleware";
-import { getPostAccessAmount } from "@/collectdata/collectdata.service";
-import { getPostCommentAmount } from "@/comment/comment.service";
+import { createTag, getTagByName } from "../tag/tag.service";
+import { TagModel } from "../tag/tag.model";
+import { TypeModel } from "../type/type.model";
+import { createType, getTypeByName } from "../type/type.service";
+import { collectdata } from "../collectdata/collectdata.middleware";
+import { getPostAccessAmount } from "../collectdata/collectdata.service";
+import { getPostCommentAmount } from "../comment/comment.service";
 
 /**
  * 创建博客
@@ -57,7 +57,7 @@ export const store = async (
 
   // 创建内容
   try {
-    const data = await createPost(post);
+    const data = (await createPost(post)) as any;
 
     const postId = parseInt(`${data.insertId}`, 10);
 
@@ -143,7 +143,7 @@ export const show = async (
   const { postId } = request.params;
 
   try {
-    const data = await getOnlyOnePost(parseInt(postId, 10));
+    const data = (await getOnlyOnePost(parseInt(postId, 10))) as any;
 
     // 获取单篇博客的访问次数
     const accessAmount = await getPostAccessAmount(parseInt(postId, 10));

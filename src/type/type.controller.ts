@@ -1,4 +1,4 @@
-import { collectdata } from "@/collectdata/collectdata.middleware";
+import { collectdata } from "../collectdata/collectdata.middleware";
 import { Request, Response, NextFunction } from "express";
 import * as typeService from "./type.service";
 

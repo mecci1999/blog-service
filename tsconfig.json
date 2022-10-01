@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target":"es6",
+    "target": "es6",
     "module": "commonjs",
     "declaration": true,
     "removeComments": true,
@@ -18,19 +18,10 @@
     "lib": ["esnext"],
     "types": ["node"],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["src/*"]
     }
   },
-  "include": [
-    "./src/**/*.ts",
-    "./src/**/*.d.ts"
-  ],
-  "exclude": [
-    "node_modlues",
-    "dist",
-    "build"
-  ],
-  "files": [
-    "types/express.d.ts"
-  ]
+  "include": ["src/**/*.ts", "src/**/*.d.ts"],
+  "exclude": ["node_modlues", "dist", "build"],
+  "files": ["types/express.d.ts"]
 }

@@ -1,5 +1,5 @@
-import { collectdata } from "@/collectdata/collectdata.middleware";
-import { changeTimeFormat } from "@/post/post.controller";
+import { collectdata } from "../collectdata/collectdata.middleware";
+import { changeTimeFormat } from "../post/post.controller";
 import { Request, Response, NextFunction } from "express";
 import { socketIoServer } from "../app/app.server";
 import {

@@ -1,4 +1,4 @@
-import { authGuard } from "@/auth/auth.middleware";
+import { authGuard } from "../auth/auth.middleware";
 import express from "express";
 import { index, store, destory } from "./updateLog.controller";
 

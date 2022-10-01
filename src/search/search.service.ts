@@ -1,4 +1,4 @@
-import { GetPostsOptionsPagination } from "@/post/post.service";
+import { GetPostsOptionsPagination } from "../post/post.service";
 import { connection } from "../app/database/mysql";
 
 /**

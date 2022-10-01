@@ -1,4 +1,4 @@
-import { changeTimeFormat } from "@/post/post.controller";
+import { changeTimeFormat } from "../post/post.controller";
 import { Request, Response, NextFunction } from "express";
 // import {
 //   allowedActionUserOther,

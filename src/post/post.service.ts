@@ -1,4 +1,4 @@
-import { TokenPayload } from "@/auth/auth.interface";
+import { TokenPayload } from "../auth/auth.interface";
 import { connection } from "../app/database/mysql";
 import { PostBgImgModel, PostModel, PostStatus } from "./post.model";
 

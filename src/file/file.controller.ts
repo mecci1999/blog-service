@@ -10,10 +10,10 @@ import {
   getImageIndex,
   uploadImage,
 } from "./file.service";
-import { changeTimeFormat } from "@/post/post.controller";
+import { changeTimeFormat } from "../post/post.controller";
 import { marked } from "marked";
 import Hljs from "highlight.js";
-import { collectdata } from "@/collectdata/collectdata.middleware";
+import { collectdata } from "../collectdata/collectdata.middleware";
 
 /**
  * 上传图片文件

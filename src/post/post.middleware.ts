@@ -1,4 +1,4 @@
-import { fileFilter } from "@/file/file.middleware";
+import { fileFilter } from "../file/file.middleware";
 import { Request, Response, NextFunction } from "express";
 import multer from "multer";
 import path from "path";

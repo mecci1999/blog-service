@@ -8,7 +8,7 @@ import {
   filter,
   paginate,
 } from "./post.middleware";
-import { POSTS_PRE_PAGE } from "@/app/app.config";
+import { POSTS_PRE_PAGE } from "../app/app.config";
 
 const router = express.Router();
 
