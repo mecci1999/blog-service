@@ -129,7 +129,23 @@ export const getPostList = async (options: GetPostsOptions) => {
           ),
           NULL
         ) AS JSON
-      ) AS tags
+      ) AS tags,
+      (
+        SELECT
+          COUNT(access_log.id)
+        FROM
+          access_log
+        WHERE
+        access_log.resourceId = post.id AND access_log.action = 'getPostById'
+      ) AS readAmount,
+      (
+        SELECT
+          COUNT(comment.id)
+        FROM
+          comment
+        WHERE
+          comment.postId = post.id AND comment.status = 'approved'
+      ) AS commentAmount
     FROM
       post
     LEFT JOIN user
@@ -145,7 +161,7 @@ export const getPostList = async (options: GetPostsOptions) => {
     LEFT JOIN
       type ON post_type.typeId = type.id
     WHERE ${filter?.sql}  AND ${whereStatus}
-    GROUP BY post.id 
+    GROUP BY post.id
     ORDER BY ${sort}
     LIMIT ?
     OFFSET ?
@@ -432,4 +448,39 @@ export const getPostsTotalCount = async (options: GetPostsOptions) => {
 
   //提供数据
   return data[0][0].total;
+};
+
+/**
+ * 修改博客
+ */
+export const update = async (postId: number, post: PostModel) => {
+  //准备查询
+  const statement = `
+    UPDATE post
+    SET ?
+    WHERE id = ? 
+  `;
+
+  //执行查询
+  const [data] = await connection.promise().query(statement, [post, postId]);
+
+  //提供数据
+  return data;
+};
+
+/**
+ * 删除博客
+ */
+export const destory = async (postId: number) => {
+  //准备查询
+  const statement = `
+    DELETE FROM post
+    WHERE id = ?
+  `;
+
+  //执行查询
+  const [data] = await connection.promise().query(statement, postId);
+
+  //提供数据
+  return data;
 };

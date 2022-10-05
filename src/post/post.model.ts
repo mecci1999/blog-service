@@ -2,7 +2,6 @@ export class PostModel {
   id?: number;
   title?: string;
   description?: string;
-  type?: PostType;
   status?: PostStatus;
   userId?: number;
   wordAmount?: string;
@@ -20,7 +19,7 @@ export enum PostType {
 export enum PostStatus {
   published = "published", // 已发布
   draft = "draft", // 草稿
-  archived = "archived", //
+  archived = "archived", // 存档
 }
 
 // 博客封面数据类型

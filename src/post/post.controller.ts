@@ -7,12 +7,14 @@ import {
   creatPostType,
   deletePostTag,
   deletePostType,
+  destory,
   findBgImgByPostId,
   getOnlyOnePost,
   getPostList,
   getPostsTotalCount,
   postHasTag,
   postHasType,
+  update,
 } from "./post.service";
 import fs from "fs";
 import _ from "lodash";
@@ -446,6 +448,54 @@ export const destroyPostType = async (
     })(request, response, next);
 
     response.sendStatus(200);
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * 修改博客
+ */
+export const updatePost = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  // 准备数据
+  const { postId } = request.params;
+  const post = _.pick(request.body, [
+    "title",
+    "description",
+    "status",
+    "wordAmount",
+    "readTime",
+    "content",
+  ]);
+
+  try {
+    const data = await update(parseInt(postId, 10), post);
+
+    response.sendStatus(200).send(data);
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * 删除博客
+ */
+export const deletePost = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  // 准备数据
+  const { postId } = request.params;
+
+  try {
+    const data = await destory(parseInt(postId, 10));
+
+    response.sendStatus(200).send(data);
   } catch (error) {
     next(error);
   }

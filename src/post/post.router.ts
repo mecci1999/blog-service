@@ -35,6 +35,11 @@ router.get(
 );
 
 /**
+ * 修改博客接口
+ */
+router.post("/posts/update/:postId", authGuard, postController.updatePost);
+
+/**
  * 获取单个博客接口
  */
 router.get("/posts/:postId", postController.show);
@@ -106,6 +111,11 @@ router.delete(
   // }),
   postController.destroyPostType
 );
+
+/**
+ * 删除博客
+ */
+router.delete("/posts/:postId", authGuard, postController.deletePost);
 
 /**
  * 默认导出路由
