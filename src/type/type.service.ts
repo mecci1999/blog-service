@@ -74,3 +74,22 @@ export const getTypeList = async () => {
   // 提供数据
   return data[0];
 };
+
+/**
+ * 更新分类
+ */
+export const updateType = async (name: string, typeId: number) => {
+  // 准备查询
+  const statement = `
+  UPDATE type
+  SET name = ?
+  WHERE id = ?
+  `;
+
+  // 执行查询
+  const [data] = await connection.promise().query(statement, [name, typeId]);
+
+  console.log(statement);
+
+  return data;
+};

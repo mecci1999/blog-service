@@ -78,3 +78,25 @@ export const index = async (
     next(error);
   }
 };
+
+/**
+ * 更新标签
+ */
+export const update = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  try {
+    // 获得数据
+    const { name, tagId } = request.body;
+
+    // 更新标签
+    const data = await tagService.updateTag(name, tagId);
+
+    //做出响应
+    response.status(201).send(data);
+  } catch (error) {
+    next(error);
+  }
+};

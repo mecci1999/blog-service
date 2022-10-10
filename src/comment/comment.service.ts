@@ -117,7 +117,19 @@ export const getComments = async (options: GetCommentsOptions) => {
       comment.userId,
       ${sqlFragment.post},
       ${sqlFragment.replyCommentList},
-      ${sqlFragment.totalReplies}
+      ${sqlFragment.totalReplies},
+      IF(
+        comment.parentId,
+        (
+          SELECT
+            parentComment.content
+          FROM
+            comment parentComment
+          WHERE
+            comment.parentId = parentComment.id
+        ),
+        NULL
+      ) AS isReplyComment
     FROM
       comment
     ${sqlFragment.leftJoinPost}

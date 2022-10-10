@@ -134,12 +134,11 @@ export const index = async (
     const data = await getImageIndex();
 
     // 对时间做处理
-    const [{ created, updated, size }] = data;
-
-    data[0].created = changeTimeFormat(created);
-    data[0].updated = changeTimeFormat(updated);
-
-    data[0].size = (size / 1024 / 1024).toFixed(2);
+    data.forEach((item: any) => {
+      item.created = changeTimeFormat(item.created);
+      item.updated = changeTimeFormat(item.updated);
+      item.size = (item.size / 1024 / 1024).toFixed(2) + "MB";
+    });
 
     response.send(data);
   } catch (error) {

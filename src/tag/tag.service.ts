@@ -79,3 +79,22 @@ export const getTagList = async () => {
   // 提供数据
   return data[0];
 };
+
+/**
+ * 更新标签
+ */
+export const updateTag = async (name: string, tagId: number) => {
+  // 准备查询
+  const statement = `
+  UPDATE tag
+  SET name = ?
+  WHERE id = ?
+  `;
+
+  // 执行查询
+  const [data] = await connection.promise().query(statement, [name, tagId]);
+
+  console.log(statement);
+
+  return data;
+};

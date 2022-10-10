@@ -15,6 +15,11 @@ router.post("/tags", authGuard, tagController.store);
 router.get("/tags/:tagId/delete", authGuard, tagController.destory);
 
 /**
+ * 更新标签
+ */
+router.post("/tags/update", authGuard, tagController.update);
+
+/**
  * 获取标签列表
  */
 router.get("/tags/list", tagController.index);

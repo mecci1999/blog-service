@@ -27,14 +27,37 @@ export const filter = async (
     };
   }
 
-  // // 用户的评论列表
-  // if (user && action == "published" && !post) {
-  //   request.filter = {
-  //     name: "userPublished",
-  //     sql: "comment.parentId IS NULL AND comment.userId = ?",
-  //     param: `${user}`,
-  //   };
-  // }
+  // 全部评论列表
+  if (action === "all" && !post) {
+    request.filter = {
+      name: "postComments",
+      sql: "comment.id IS NOT NULL",
+    };
+  }
+
+  // 待审核评论列表
+  if (action === "pending" && !post) {
+    request.filter = {
+      name: "postComments",
+      sql: "comment.id IS NOT NULL AND comment.status = 'pending'",
+    };
+  }
+
+  // 审核通过评论列表
+  if (action === "approved" && !post) {
+    request.filter = {
+      name: "postComments",
+      sql: "comment.id IS NOT NULL AND comment.status = 'approved'",
+    };
+  }
+
+  // 驳回评论列表
+  if (action === "denied" && !post) {
+    request.filter = {
+      name: "postComments",
+      sql: "comment.id IS NOT NULL AND comment.status = 'denied'",
+    };
+  }
 
   // // 用户的回复评论列表
   // if (user && action == "replied" && !post) {

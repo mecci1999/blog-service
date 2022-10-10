@@ -78,3 +78,25 @@ export const index = async (
     next(error);
   }
 };
+
+/**
+ * 更新分类
+ */
+export const update = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  try {
+    // 获得数据
+    const { name, typeId } = request.body;
+
+    // 更新标签
+    const data = await typeService.updateType(name, typeId);
+
+    //做出响应
+    response.status(201).send(data);
+  } catch (error) {
+    next(error);
+  }
+};
