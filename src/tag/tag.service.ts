@@ -70,6 +70,7 @@ export const getTagList = async () => {
       tag
     LEFT JOIN post_tag ON post_tag.tagId = tag.id
     LEFT JOIN post ON post.id = post_tag.postId
+    WHERE post.status = 'published'
     GROUP BY tag.name
   `;
 
