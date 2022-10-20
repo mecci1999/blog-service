@@ -63,14 +63,17 @@ export const getTagList = async () => {
     SELECT
       tag.id,
       tag.name,
-      COUNT(
-        post.id
+      (
+        SELECT
+          COUNT(post.id)
+        FROM
+          tag as taglist
+        LEFT JOIN post_tag ON post_tag.tagId = tag.id
+        LEFT JOIN post ON post.id = post_tag.postId
+        WHERE post.status = 'published' AND taglist.id = tag.id
       ) AS amount
     FROM
       tag
-    LEFT JOIN post_tag ON post_tag.tagId = tag.id
-    LEFT JOIN post ON post.id = post_tag.postId
-    WHERE post.status = 'published'
     GROUP BY tag.name
   `;
 
