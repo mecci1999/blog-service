@@ -20,9 +20,7 @@ export const index = async (
 
     // 对时间做处理
     data.forEach((item: any) => {
-      item.date = changeTimeFormat(item.date)
-        .split(" ")[0]
-        .replaceAll("-", "/");
+      item.date = changeTimeFormat(item.date);
     });
 
     // 埋点

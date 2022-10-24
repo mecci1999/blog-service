@@ -73,6 +73,13 @@ export const getAppInfo = async () => {
       ) AS accessAmount,
       (
         SELECT
+          COUNT(access_log.id)
+        FROM
+          access_log
+        WHERE access_log.created > now() - INTERVAL 1 DAY AND access_log.action = 'getPosts'
+      ) AS todayAccessAmount,
+      (
+        SELECT
           post.updated
         FROM
           post

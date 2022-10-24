@@ -167,7 +167,7 @@ export const appInfo = async (
   try {
     const info = await getAppInfo();
 
-    info.updateTime = changeTimeFormat(info.updateTime).split(" ")[0];
+    info.updateTime = changeTimeFormat(info.updateTime);
 
     // 做出响应
     response.send(info);

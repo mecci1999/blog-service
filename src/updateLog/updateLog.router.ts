@@ -5,17 +5,17 @@ import { index, store, destory } from "./updateLog.controller";
 const router = express.Router();
 
 /**
- * 网站公告列表
+ * 网站更新日志列表
  */
 router.get("/updateLog", index);
 
 /**
- * 添加公告
+ * 添加更新日志
  */
 router.post("/updateLog/add", authGuard, store);
 
 /**
- * 删除公告
+ * 删除更新日志
  */
 router.delete("/updateLog/:updateLogId", authGuard, destory);
 
