@@ -1,4 +1,4 @@
-import { getIPAddressBySohu } from "@/collectdata/collectdata.middleware";
+import { getIPAddressBySohu } from "../collectdata/collectdata.middleware";
 import axios from "axios";
 import { Request, Response, NextFunction } from "express";
 
