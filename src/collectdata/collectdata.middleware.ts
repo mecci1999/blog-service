@@ -1,3 +1,4 @@
+import axios from "axios";
 import { Request, Response, NextFunction } from "express";
 import _ from "lodash";
 import { createAccessLog, getSumData } from "./collectdata.service";
@@ -56,13 +57,14 @@ export const collectdata =
 
     // 请求
     const {
-      ip,
       originalUrl,
       method,
       query,
       params,
       route: { path },
     } = request;
+
+    const ip = await getIPAddressBySohu();
 
     const data = (await getSumData(action)) as SumDataOptions;
 
@@ -84,10 +86,33 @@ export const collectdata =
       path,
       sumData: data.value,
     };
-    
+
     // 创建日志
     createAccessLog(accessLog);
 
     // 下一步
     next();
   };
+
+// 获取ip地址
+export const getIPAddressBySohu = async () => {
+  let ip: string = "";
+
+  await axios
+    .create({ baseURL: "http://pv.sohu.com" })
+    .get(`/cityjson?ie=utf-8`)
+    .then(
+      (e) => {
+        const object = e.data.split("=")[1].trim().slice(0, -1);
+
+        const { cip } = JSON.parse(object);
+
+        ip = cip;
+      },
+      (e) => {
+        console.log(e);
+      }
+    );
+
+  return ip;
+};

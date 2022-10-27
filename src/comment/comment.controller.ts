@@ -35,6 +35,13 @@ export const store = async (
     city,
   } = request.body;
 
+  let userId = null;
+
+  // 博主评论
+  if (request.user.id) {
+    userId = 1;
+  }
+
   const socketId = request.header("X-Socket-Id");
 
   const comment = {
@@ -48,6 +55,7 @@ export const store = async (
     province,
     status,
     city,
+    userId,
   };
 
   try {
@@ -102,6 +110,13 @@ export const reply = async (
     city,
   } = request.body;
 
+  let userId = null;
+
+  // 博主评论
+  if (request.user.id) {
+    userId = 1;
+  }
+
   const socketId = request.header("X-Socket-Id");
 
   const comment = {
@@ -116,6 +131,7 @@ export const reply = async (
     province,
     status,
     city,
+    userId,
   };
 
   //判断是否审核通过

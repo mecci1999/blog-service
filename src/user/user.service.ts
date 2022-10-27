@@ -15,6 +15,7 @@ export const getUserInfo = async () => {
           COUNT(post.id)
         FROM
           post
+        WHERE post.status = 'published'
       ) AS blogAmount,
       (
         SELECT
@@ -28,12 +29,6 @@ export const getUserInfo = async () => {
         FROM
           tag
       ) AS tagAmount,
-      (
-        SELECT
-          COUNT(post.id)
-        FROM
-          post
-      ) AS blogAmount,
       IF (
         COUNT(avatar.id), 1, NULL
       ) AS avatar

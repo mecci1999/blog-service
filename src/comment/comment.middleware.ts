@@ -1,3 +1,4 @@
+import { getIPAddressBySohu } from "@/collectdata/collectdata.middleware";
 import axios from "axios";
 import { Request, Response, NextFunction } from "express";
 
@@ -81,9 +82,13 @@ export const getAddressByBaiduApi = async (
   response: Response,
   next: NextFunction
 ) => {
+  const ip = await getIPAddressBySohu();
+
   await axios
     .create({ baseURL: "https://api.map.baidu.com" })
-    .get("/location/ip?ak=N8aHMjLP374THnPfPyB89BPKK7TImh2z&coor=bd09ll")
+    .get(
+      `/location/ip?ak=N8aHMjLP374THnPfPyB89BPKK7TImh2z&ip=${ip}&coor=bd09ll`
+    )
     .then(
       (e) => {
         request.body.province = e.data.content.address_detail.province;
