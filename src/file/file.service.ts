@@ -122,6 +122,8 @@ export const getFileByName = async (name: string) => {
       file
     WHERE
       file.originalname = ?
+    ORDER BY file.id DESC
+    LIMIT 1
   `;
 
   // 执行查询
