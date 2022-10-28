@@ -13,7 +13,6 @@ const router = express.Router();
  */
 router.post(
   "/comments",
-  commentMiddleware.getAddressByBaiduApi,
   commentMiddleware.getOSAndBrowserInfo,
   commentController.store
 );
@@ -23,7 +22,6 @@ router.post(
  */
 router.post(
   "/comments/:commentId/reply",
-  commentMiddleware.getAddressByBaiduApi,
   commentMiddleware.getOSAndBrowserInfo,
   commentController.reply
 );

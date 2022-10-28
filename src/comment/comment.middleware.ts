@@ -1,4 +1,3 @@
-import { getIPAddressBySohu } from "../collectdata/collectdata.middleware";
 import axios from "axios";
 import { Request, Response, NextFunction } from "express";
 
@@ -75,33 +74,33 @@ export const filter = async (
 
 /**
  * 获取真实地址
- * 使用的是百度地图提供的api
+ * 使用的是百度地图提供的api, 无法在服务端使用，已废弃
  */
-export const getAddressByBaiduApi = async (
-  request: Request,
-  response: Response,
-  next: NextFunction
-) => {
-  const ip = await getIPAddressBySohu();
+// export const getAddressByBaiduApi = async (
+//   request: Request,
+//   response: Response,
+//   next: NextFunction
+// ) => {
+//   const ip = await getIPAddressBySohu();
 
-  await axios
-    .create({ baseURL: "https://api.map.baidu.com" })
-    .get(
-      `/location/ip?ak=N8aHMjLP374THnPfPyB89BPKK7TImh2z&ip=${ip}&coor=bd09ll`
-    )
-    .then(
-      (e) => {
-        request.body.province = e.data.content.address_detail.province;
-        request.body.city = e.data.content.address_detail.city;
-      },
-      (e) => {
-        console.log(e);
-      }
-    )
-    .finally(() => {
-      next();
-    });
-};
+//   await axios
+//     .create({ baseURL: "https://api.map.baidu.com" })
+//     .get(
+//       `/location/ip?ak=N8aHMjLP374THnPfPyB89BPKK7TImh2z&ip=${ip}&coor=bd09ll`
+//     )
+//     .then(
+//       (e) => {
+//         request.body.province = e.data.content.address_detail.province;
+//         request.body.city = e.data.content.address_detail.city;
+//       },
+//       (e) => {
+//         console.log(e);
+//       }
+//     )
+//     .finally(() => {
+//       next();
+//     });
+// };
 
 /**
  * 获取请求的相关信息的方法

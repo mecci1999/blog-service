@@ -64,7 +64,7 @@ export const collectdata =
       route: { path },
     } = request;
 
-    const ip = await getIPAddressBySohu();
+    const ip = `${request.header("Ip")}`;
 
     const data = (await getSumData(action)) as SumDataOptions;
 
@@ -94,25 +94,25 @@ export const collectdata =
     next();
   };
 
-// 获取ip地址
-export const getIPAddressBySohu = async () => {
-  let ip: string = "";
+// 获取ip地址, 废弃
+// export const getIPAddressBySohu = async () => {
+//   let ip: string = "";
 
-  await axios
-    .create({ baseURL: "http://pv.sohu.com" })
-    .get(`/cityjson?ie=utf-8`)
-    .then(
-      (e) => {
-        const object = e.data.split("=")[1].trim().slice(0, -1);
+//   await axios
+//     .create({ baseURL: "http://pv.sohu.com" })
+//     .get(`/cityjson?ie=utf-8`)
+//     .then(
+//       (e) => {
+//         const object = e.data.split("=")[1].trim().slice(0, -1);
 
-        const { cip } = JSON.parse(object);
+//         const { cip } = JSON.parse(object);
 
-        ip = cip;
-      },
-      (e) => {
-        console.log(e);
-      }
-    );
+//         ip = cip;
+//       },
+//       (e) => {
+//         console.log(e);
+//       }
+//     );
 
-  return ip;
-};
+//   return ip;
+// };
