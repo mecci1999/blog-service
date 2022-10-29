@@ -28,7 +28,7 @@ export const searchPosts = async (options: searchPostsOptions) => {
     FROM
         post
     WHERE
-        post.title LIKE ?
+      post.status = 'published' AND post.title LIKE ?
     LIMIT ?
     OFFSET ?
   `;
