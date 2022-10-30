@@ -147,6 +147,11 @@ export const show = async (
   try {
     const data = (await getOnlyOnePost(parseInt(postId, 10))) as any;
 
+    // 当内容状态为未发布时。无法返回数据
+    if (data[0].status !== "published") {
+      throw new Error("POST_IS_NOT_ACCESS");
+    }
+
     // 获取单篇博客的访问次数
     const accessAmount = await getPostAccessAmount(parseInt(postId, 10));
 

@@ -106,6 +106,10 @@ export const defaultErrorHandler = (
       statusCode = 400;
       message = "支付地址已过期";
       break;
+    case "POST_IS_NOT_ACCESS":
+      statusCode = 403;
+      message = "该内容无法访问";
+      break;
     default:
       statusCode = 500;
       message = "服务器暂时出了点问题 ~~";
