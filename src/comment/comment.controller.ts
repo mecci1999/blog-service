@@ -327,6 +327,11 @@ export const indexReplied = async (
       commentId: parseInt(commentId, 10),
     });
 
+    replies.forEach((item: any) => {
+      item.created = changeTimeFormat(item.created);
+      item.updated = changeTimeFormat(item.updated);
+    });
+
     // 作出响应
     response.send(replies);
   } catch (error) {
