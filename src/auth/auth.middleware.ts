@@ -93,3 +93,35 @@ export const currentUser = (
   // 下一步
   next();
 };
+
+/**
+ * 获取ip地址
+ */
+export const getIpAddress = (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  const ip =
+    request.headers["x-forwarded-for"] ||
+    request.ip ||
+    request.connection.remoteAddress ||
+    request.socket.remoteAddress ||
+    "";
+
+  let result = "";
+  if (Array.isArray(ip)) {
+    let res = ip[0];
+    result = res.split(",")[0];
+    result = res.substr(ip.lastIndexOf(":") + 1, ip.length);
+  } else {
+    if (ip.split(",").length > 0) {
+      result = ip.split(",")[0];
+      result = ip.substr(ip.lastIndexOf(":") + 1, ip.length);
+    } else {
+      result = ip.substr(ip.lastIndexOf(":") + 1, ip.length);
+    }
+  }
+
+  response.send({ ip: result });
+};
